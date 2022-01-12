@@ -6,13 +6,25 @@ Interface for quotes worker
 """
 import datetime
 from abc import ABC
-from typing import List, Union, Optional
+from typing import List, Optional, Union
 
 import numpy
+
 from zillionare_core_types.core.types import Frame, FrameType
 
 
 class QuotesFetcher(ABC):
+    async def get_quota(self) -> int:
+        """获取接口当前可用的quota
+
+        Raises:
+            NotImplementedError: [description]
+
+        Returns:
+            int: [description]
+        """
+        raise NotImplementedError
+        
     async def get_security_list(self) -> numpy.ndarray:
         """
         fetch security list from server. The returned list is a numpy.ndarray,
