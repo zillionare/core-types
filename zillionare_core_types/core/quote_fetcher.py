@@ -24,7 +24,7 @@ class QuotesFetcher(ABC):
             int: [description]
         """
         raise NotImplementedError
-        
+
     async def get_security_list(self) -> numpy.ndarray:
         """
         fetch security list from server. The returned list is a numpy.ndarray,
@@ -116,5 +116,37 @@ class QuotesFetcher(ABC):
 
         Returns:
             numpy.ndarray: [description]
+        """
+        raise NotImplementedError
+
+    async def get_fund_list(self, codes: Union[str, List[str]] = None) -> numpy.ndarray:
+        """
+        获取所有的基金基本信息
+        Args:
+        Returns:
+            np.array: [基金的基本信息]
+        """
+        raise NotImplementedError
+
+    async def get_fund_portfolio_stock(
+        self, codes: Union[str, List[str]], pub_date: Union[str, datetime.date] = None
+    ) -> numpy.array:
+        raise NotImplementedError
+
+    async def get_fund_net_value(
+        self,
+        codes: Union[str, List[str]],
+        day: datetime.date = None,
+    ) -> numpy.array:
+        raise NotImplementedError
+
+    async def get_fund_share_daily(
+        self, codes: Union[str, List[str]] = None, day: datetime.date = None
+    ) -> numpy.array:
+        raise NotImplementedError
+
+    async def get_query_count(self):
+        """
+        查询当日剩余可调用数据条数
         """
         raise NotImplementedError
