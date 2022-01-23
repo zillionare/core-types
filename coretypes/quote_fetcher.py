@@ -7,10 +7,12 @@ Interface for quotes worker
 import datetime
 from abc import ABC
 from typing import List, Optional, Union
+import deprecation
 
 import numpy
 
-from zillionare_core_types.core.types import Frame, FrameType
+from coretypes import Frame, FrameType
+from .__version__ import __version__
 
 
 class QuotesFetcher(ABC):
@@ -145,8 +147,14 @@ class QuotesFetcher(ABC):
     ) -> numpy.array:
         raise NotImplementedError
 
+    @deprecation.deprecated(deprecated_in="0.2", removed_in="0.3", current_version=__version__,details="Use get_quota instead")
     async def get_query_count(self):
         """
         查询当日剩余可调用数据条数
+        """
+        raise NotImplementedError
+
+    async def get_quota(self):
+        """查询账号的quota使用情况
         """
         raise NotImplementedError
