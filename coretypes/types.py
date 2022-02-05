@@ -8,7 +8,6 @@ from typing import Union
 
 Frame = Union[datetime.date, datetime.datetime]
 
-
 class FrameType(Enum):
     """对证券交易中K线周期的封装。提供了以下对应周期:
 
@@ -144,6 +143,8 @@ stock_bars_dtype = [
     ("factor", "f4"),
 ]
 
+stock_bars_cols = [dtype[0] for dtype in stock_bars_dtype]
+
 bars_with_limit_dtype = [
     ("frame", "O"),
     ("open", "f4"),
@@ -158,3 +159,5 @@ bars_with_limit_dtype = [
     ("code", "O"),
     ("frame_type", "O"),
 ]
+
+bars_with_limit_cols = [dtype[0] for dtype in bars_with_limit_dtype]
