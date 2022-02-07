@@ -132,8 +132,8 @@ class MarketType(Enum):
     XSHE = "XSHE"
 
 
-stock_bars_dtype = [
-    ("frame", "O"),
+bars_dtype = [
+    ("frame", "datetime64[s]"),
     ("open", "f4"),
     ("high", "f4"),
     ("low", "f4"),
@@ -143,21 +143,12 @@ stock_bars_dtype = [
     ("factor", "f4"),
 ]
 
-stock_bars_cols = [dtype[0] for dtype in stock_bars_dtype]
+bars_cols = [dtype[0] for dtype in bars_dtype]
 
 bars_with_limit_dtype = [
-    ("frame", "O"),
-    ("open", "f4"),
-    ("high", "f4"),
-    ("low", "f4"),
-    ("close", "f4"),
-    ("volume", "f8"),
-    ("amount", "f8"),
+    *bars_dtype,
     ("high_limit", "f4"),
-    ("low_limit", "O"),
-    ("factor", "f4"),
-    ("code", "O"),
-    ("frame_type", "O"),
+    ("low_limit", "f4")
 ]
 
 bars_with_limit_cols = [dtype[0] for dtype in bars_with_limit_dtype]
