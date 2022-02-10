@@ -133,7 +133,7 @@ class MarketType(Enum):
 
 
 bars_dtype = [
-    ("frame", "datetime64[s]"),
+    ("frame", "O"), # python object either of Frame type
     ("open", "f4"),
     ("high", "f4"),
     ("low", "f4"),
