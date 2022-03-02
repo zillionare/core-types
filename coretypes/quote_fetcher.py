@@ -6,7 +6,7 @@ Interface for quotes worker
 """
 import datetime
 from abc import ABC
-from typing import List, Optional, Union
+from typing import List, Union, Dict
 import deprecation
 
 import numpy
@@ -75,10 +75,10 @@ class QuotesFetcher(ABC):
     async def get_price(
         self,
         sec: Union[List, str],
-        end_date: Union[str, datetime.datetime],
-        n_bars: Optional[int],
-        start_date: Optional[Union[str, datetime.datetime]] = None,
-    ) -> numpy.ndarray:
+        end_at: Union[str, datetime.datetime],
+        n_bars: int,
+        frame_type: str
+    ) -> Dict[str, numpy.recarray]:
 
         raise NotImplementedError
 
