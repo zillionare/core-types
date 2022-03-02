@@ -62,7 +62,8 @@ doc = [
     "mkdocs-material",
     "mkdocstrings",
     "mkdocs-material-extension",
-    "mkdocs-autorefs"
+    "mkdocs-autorefs",
+    "livereload"
     ]
 
 
