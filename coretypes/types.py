@@ -6,7 +6,11 @@ import datetime
 from enum import Enum
 from typing import Union
 
+import numpy as np
+from numpy.typing import NDArray
+
 Frame = Union[datetime.date, datetime.datetime]
+"""包含日期date和时间datetime的联合类型"""
 
 
 class FrameType(Enum):
@@ -133,9 +137,9 @@ class MarketType(Enum):
     XSHE = "XSHE"
 
 
-bars_dtype = [
+bars_dtype = np.dtype([
     # use datetime64 may improve performance/memory usage, but it's hard to talk with other modules, like TimeFrame
-    ("frame", "O"),
+    ("frame", "datetime64[s]"),
     ("open", "f4"),
     ("high", "f4"),
     ("low", "f4"),
@@ -143,10 +147,67 @@ bars_dtype = [
     ("volume", "f8"),
     ("amount", "f8"),
     ("factor", "f4"),
+])
+"""行情数据元类型"""
+
+bars_dtype_with_code = np.dtype([
+    ("code", "O"),
+    # use datetime64 may improve performance/memory usage, but it's hard to talk with other modules, like TimeFrame
+    ("frame", "datetime64[s]"),
+    ("open", "f4"),
+    ("high", "f4"),
+    ("low", "f4"),
+    ("close", "f4"),
+    ("volume", "f8"),
+    ("amount", "f8"),
+    ("factor", "f4"),
+])
+"""带证券代码的行情数据元类型"""
+
+bars_cols = list(bars_dtype.names)
+"""行情数据列名数组，即[frame, open, high, low, close, volume, amount, factor]"""
+
+fields = bars_dtype.descr.copy()
+fields.extend([("high_limit", "f4"), ("low_limit", "f4")])
+
+bars_with_limit_dtype = np.dtype(fields)
+"""带涨跌停价格的行情数据元类型，包含frame, open, high, low, close, volume, amount, factort high_limit, low_limit"""
+
+bars_with_limit_cols = list(bars_with_limit_dtype.names)
+"""带涨跌停价的行情数据列名数组，即[frame, open, high, low, close, volume, amount, factort high_limit, low_limit]"""
+
+BarsArray = NDArray[bars_dtype]
+"""行情数据(包含列frame, open, high, low, close, volume, amount, factor)数组"""
+
+BarsWithLimitArray = NDArray[bars_with_limit_dtype]
+"""带涨跌停价(high_limit, low_limit)的行情数据数组"""
+
+BarsPanel = NDArray[bars_dtype_with_code]
+"""带证券代码的行情数据数组"""
+
+security_db_dtype = [("frame", "O"), ("code", "U16"), ("info", "O")]
+
+security_info_dtype = [
+    ("code", "O"),
+    ("alias", "O"),
+    ("name", "O"),
+    ("ipo", "datetime64[s]"),
+    ("end", "datetime64[s]"),
+    ("type", "O"),
 ]
 
-bars_cols = [dtype[0] for dtype in bars_dtype]
+xrxd_info_dtype = [
+    ("code", "O"),
+    ("a_xr_date", "datetime64[s]"),
+    ("bonusnote1", "O"),
+    ("bonus_ratio", "<f4"),
+    ("dividend_ratio", "<f4"),
+    ("transfer_ratio", "<f4"),
+    ("at_bonus_ratio", "<f4"),
+    ("report_date", "datetime64[s]"),
+    ("plan_progress", "O"),
+    ("bonusnote2", "O"),
+    ("bonus_cancel_pub_date", "datetime64[s]"),
+]
 
-bars_with_limit_dtype = [*bars_dtype, ("high_limit", "f4"), ("low_limit", "f4")]
-
-bars_with_limit_cols = [dtype[0] for dtype in bars_with_limit_dtype]
+__all__ = ['Frame', 'FrameType', 'SecurityType', 'MarketType', 'bars_dtype', 'bars_dtype_with_code','bars_cols', 'bars_with_limit_dtype', 'bars_with_limit_cols', 'BarsArray', 'BarsWithLimitArray', 'BarsPanel', 'security_db_dtype', 'security_info_dtype', 'xrxd_info_dtype']
