@@ -1,6 +1,6 @@
 """Top-level package for zillionare core types."""
 
-#!/usr/bin/env python
+# !/usr/bin/env python
 # -*- coding: utf-8 -*-
 import datetime
 from enum import Enum
@@ -137,31 +137,35 @@ class MarketType(Enum):
     XSHE = "XSHE"
 
 
-bars_dtype = np.dtype([
-    # use datetime64 may improve performance/memory usage, but it's hard to talk with other modules, like TimeFrame
-    ("frame", "datetime64[s]"),
-    ("open", "f4"),
-    ("high", "f4"),
-    ("low", "f4"),
-    ("close", "f4"),
-    ("volume", "f8"),
-    ("amount", "f8"),
-    ("factor", "f4"),
-])
+bars_dtype = np.dtype(
+    [
+        # use datetime64 may improve performance/memory usage, but it's hard to talk with other modules, like TimeFrame
+        ("frame", "datetime64[s]"),
+        ("open", "f4"),
+        ("high", "f4"),
+        ("low", "f4"),
+        ("close", "f4"),
+        ("volume", "f8"),
+        ("amount", "f8"),
+        ("factor", "f4"),
+    ]
+)
 """行情数据元类型"""
 
-bars_dtype_with_code = np.dtype([
-    ("code", "O"),
-    # use datetime64 may improve performance/memory usage, but it's hard to talk with other modules, like TimeFrame
-    ("frame", "datetime64[s]"),
-    ("open", "f4"),
-    ("high", "f4"),
-    ("low", "f4"),
-    ("close", "f4"),
-    ("volume", "f8"),
-    ("amount", "f8"),
-    ("factor", "f4"),
-])
+bars_dtype_with_code = np.dtype(
+    [
+        ("code", "O"),
+        # use datetime64 may improve performance/memory usage, but it's hard to talk with other modules, like TimeFrame
+        ("frame", "datetime64[s]"),
+        ("open", "f4"),
+        ("high", "f4"),
+        ("low", "f4"),
+        ("close", "f4"),
+        ("volume", "f8"),
+        ("amount", "f8"),
+        ("factor", "f4"),
+    ]
+)
 """带证券代码的行情数据元类型"""
 
 bars_cols = list(bars_dtype.names)
@@ -210,4 +214,20 @@ xrxd_info_dtype = [
     ("bonus_cancel_pub_date", "datetime64[s]"),
 ]
 
-__all__ = ['Frame', 'FrameType', 'SecurityType', 'MarketType', 'bars_dtype', 'bars_dtype_with_code','bars_cols', 'bars_with_limit_dtype', 'bars_with_limit_cols', 'BarsArray', 'BarsWithLimitArray', 'BarsPanel', 'security_db_dtype', 'security_info_dtype', 'xrxd_info_dtype']
+__all__ = [
+    "Frame",
+    "FrameType",
+    "SecurityType",
+    "MarketType",
+    "bars_dtype",
+    "bars_dtype_with_code",
+    "bars_cols",
+    "bars_with_limit_dtype",
+    "bars_with_limit_cols",
+    "BarsArray",
+    "BarsWithLimitArray",
+    "BarsPanel",
+    "security_db_dtype",
+    "security_info_dtype",
+    "xrxd_info_dtype",
+]

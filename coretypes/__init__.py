@@ -1,4 +1,3 @@
-from .types import *
-from .quote_fetcher import QuotesFetcher
-from .__version__ import __version__
-
+from coretypes.__version__ import __version__
+from coretypes.quote_fetcher import QuotesFetcher
+from coretypes.types import *

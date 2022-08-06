@@ -6,13 +6,13 @@ Interface for quotes worker
 """
 import datetime
 from abc import ABC
-from typing import List, Union, Dict
-import deprecation
+from typing import Dict, List, Union
 
+import deprecation
 import numpy
 
-from coretypes import Frame, FrameType
-from .__version__ import __version__
+from coretypes.__version__ import __version__
+from coretypes.types import Frame, FrameType
 
 
 class QuotesFetcher(ABC):
@@ -28,17 +28,15 @@ class QuotesFetcher(ABC):
         raise NotImplementedError
 
     async def get_security_list(self) -> numpy.ndarray:
-        """
-        fetch security list from server. The returned list is a numpy.ndarray,
-        which each elements
-        should look like:
+        """fetch security list from server.
+        The returned list is a numpy.ndarray, which each elements should look like:
         code         display_name name  start_date  end_date     type
         000001.XSHE  平安银行      PAYH  1991-04-03  2200-01-01   stock
         000002.XSHE   万科A        WKA   1991-01-29  2200-01-01   stock
 
         all fields are string type
         Returns:
-
+            numpy.ndarray: [description]
         """
         raise NotImplementedError
 
@@ -77,7 +75,7 @@ class QuotesFetcher(ABC):
         sec: Union[List, str],
         end_at: Union[str, datetime.datetime],
         n_bars: int,
-        frame_type: str
+        frame_type: str,
     ) -> Dict[str, numpy.recarray]:
 
         raise NotImplementedError
@@ -86,8 +84,7 @@ class QuotesFetcher(ABC):
         raise NotImplementedError
 
     async def get_all_trade_days(self):
-        """
-        返回交易日历。不同的服务器可能返回的时间跨度不一样，但相同跨度内的时间应该一样。对已
+        """返回交易日历。不同的服务器可能返回的时间跨度不一样，但相同跨度内的时间应该一样。对已
         经过去的交易日，可以用上证指数来验证。
         """
         raise NotImplementedError
@@ -125,6 +122,7 @@ class QuotesFetcher(ABC):
         """
         获取所有的基金基本信息
         Args:
+            codes (Union[str, List[str]]): [description]
         Returns:
             np.array: [基金的基本信息]
         """
@@ -147,14 +145,12 @@ class QuotesFetcher(ABC):
     ) -> numpy.array:
         raise NotImplementedError
 
-    @deprecation.deprecated(deprecated_in="0.2", removed_in="0.3", current_version=__version__,details="Use get_quota instead")
+    @deprecation.deprecated(
+        deprecated_in="0.2",
+        removed_in="0.3",
+        current_version=__version__,
+        details="Use get_quota instead",
+    )
     async def get_query_count(self):
-        """
-        查询当日剩余可调用数据条数
-        """
-        raise NotImplementedError
-
-    async def get_quota(self):
-        """查询账号的quota使用情况
-        """
+        """查询当日剩余可调用数据条数"""
         raise NotImplementedError

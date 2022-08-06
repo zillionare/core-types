@@ -46,11 +46,17 @@ markdown_extensions:
   - meta
 plugins:
   - include-markdown
-  - search:
-      lang: en
   - mkdocstrings:
       watch:
-        - zillionare_core_types
+        - coretypes
+      handlers:
+        python:
+          setup_commands:
+            - import sys
+            - sys.path.append("coretypes")
+  - search
+  - autorefs
+
 extra:
   social:
     - icon: fontawesome/brands/twitter
