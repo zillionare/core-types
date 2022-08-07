@@ -18,8 +18,7 @@
 </p>
 
 
-core types definition shared by zillionare
-
+定义了zillionare平台中多数项目/模块需要使用的核心数据类型，比如FrameType, SecuirityType, bars_dtype， BarsArray等。
 
 * Free software: MIT
 * Documentation: <https://zillionare-core-types.readthedocs.io>
@@ -27,8 +26,10 @@ core types definition shared by zillionare
 
 ## Features
 
-* TODO
+* 提供了FrameType, SecurityType, bars_dtype等数据类型
+* 提供了BarsArray, BarsPanel, BarsWithLimitArray等type annotation （type hint)类型
+* 提供了quote_fetcher接口类。
 
 ## Credits
 
-This package was created with [Cookiecutter](https://github.com/audreyr/cookiecutter) and the [zillionare/cookiecutter-pypackage](https://github.com/zillionare/cookiecutter-pypackage) project template.
+本项目使用[ppw](https://zillionare.github.io/python-project-wizard/)创建，并遵循ppw定义的代码风格和质量规范。
