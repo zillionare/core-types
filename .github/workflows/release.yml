@@ -60,18 +60,11 @@ jobs:
         run: >-
           poetry build
 
-      - name: create github release
-        id: create_release
-        steps:
-          - name: Build Changelog
-            uses: mikepenz/release-changelog-builder-action@{latest-release}
-            env:
-              GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          - name: Create Release
-            uses: mikepenz/action-gh-release@{latest-release}
-            with:
-              body: ${{ steps.build_changelog.outputs.changelog }}
-              ignorePreReleases: "false"
+      - name: Create Release
+        uses: mikepenz/action-gh-release@{latest-release}
+        with:
+          body: ${{ steps.build_changelog.outputs.changelog }}
+          ignorePreReleases: "false"
 
       - name: deploy to pypi
         uses: pypa/gh-action-pypi-publish@release/v1
