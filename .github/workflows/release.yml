@@ -6,7 +6,7 @@ name: release & publish workflow
 on:
   # Triggers the workflow on push or pull request events but only for the master branch
   push:
-    branch: release
+    branch: main
     tags:
       - 'v*'
 
@@ -32,7 +32,7 @@ jobs:
       - name: generate change log
         uses: heinrichreimer/github-changelog-generator-action@v2.1.1
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.PERSONAL_TOKEN }}
           issues: true
           issuesWoLabels: true
           pullRequests: true
@@ -50,7 +50,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install tox-gh-actions poetry
 
-      - name: pre-publish documentation
+      - name: build documentation
         run: |
           poetry install -E doc
           poetry run mkdocs build
