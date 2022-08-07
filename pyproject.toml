@@ -44,6 +44,7 @@ deprecation = "^2.1.0"
 livereload = {version = "^2.6.3", extras = ["doc"]}
 mkdocstrings = {version = "^0.18.0", extras = ["doc"]}
 mkdocs-autorefs = {version = "^0.4.1", extras = ["doc"]}
+mike = {version = "^1.1.2", extras = ["doc"]}
 
 [tool.poetry.extras]
 test = [
