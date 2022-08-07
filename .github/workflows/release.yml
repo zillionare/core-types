@@ -61,10 +61,16 @@ jobs:
           poetry build
 
       - name: Create Release
-        uses: mikepenz/action-gh-release@{latest-release}
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
           body: ${{ steps.build_changelog.outputs.changelog }}
-          ignorePreReleases: "false"
+          draft: false
+          prerelease: false
 
       - name: deploy to pypi
         uses: pypa/gh-action-pypi-publish@release/v1
