@@ -7,14 +7,6 @@
         alt = "Release Status">
 </a>
 
-<a href="https://github.com/zillionare/zillionare_core_types/actions">
-    <img src="https://github.com/zillionare/zillionare_core_types/actions/workflows/main.yml/badge.svg?branch=release" alt="CI Status">
-</a>
-
-<a href="https://zillionare-core-types.readthedocs.io/en/latest/?badge=latest">
-    <img src="https://readthedocs.org/projects/zillionare-core-types/badge/?version=latest" alt="Documentation Status">
-</a>
-
 </p>
 
 
