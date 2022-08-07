@@ -68,11 +68,6 @@ jobs:
       - name: list files
         run: ls -l .
 
-      - uses: codecov/codecov-action@v1
-        with:
-          fail_ci_if_error: true
-          files: coverage.xml
-
       - name: Build wheels and source tarball
         run: |
           poetry version $(poetry version --short)-dev.$GITHUB_RUN_NUMBER
