@@ -6,7 +6,9 @@
     <img src="https://img.shields.io/pypi/v/zillionare_core_types.svg"
         alt = "Release Status">
 </a>
-
+<a href="#">
+    <img src="https://github.com/zillionare/core-types/actions/workflows/release.yml/badge.svg" alt="CI status"/>
+</a>
 </p>
 
 
