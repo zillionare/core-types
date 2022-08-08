@@ -1,6 +1,8 @@
 # History
 
-## 0.5.0 （2022-08-06）
+## 0.5.1 (2022-08-08)
+* 修复了找到到mike[doc]安装包的错误。
+## 0.5. （2022-08-06）
 
 ### breaking changes
 * bars_dtype等类型中的frame字段的数据类型，由Object改为np.datetime64[s]，这个修改将有利于更快进行解析。
