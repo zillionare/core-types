@@ -1,4 +1,4 @@
-"""Top-level package for zillionare core types."""
+"""Zillionare中要用到的核心数据类型都定义在此模块中。注意部分定义仅能用作Type Annotation，比如BarsArray等别名。它们通常以大写字母开头"""
 
 # !/usr/bin/env python
 # -*- coding: utf-8 -*-
@@ -186,6 +186,14 @@ BarsArray = NDArray[bars_dtype]
 BarsWithLimitArray = NDArray[bars_with_limit_dtype]
 """带涨跌停价(high_limit, low_limit)的行情数据数组"""
 
+limit_price_only_dtype = np.dtype(
+    [("frame", "O"), ("code", "O"), ("high_limit", "f4"), ("low_limit", "f4")]
+)
+"""只包含涨跌停价的行情数据元类型，即frame, code, high_limit, low_limit"""
+
+LimitPriceOnlyBarsArray = NDArray[limit_price_only_dtype]
+"""仅包括日期、代码、涨跌停价的的行情数据数组"""
+
 BarsPanel = NDArray[bars_dtype_with_code]
 """带证券代码的行情数据数组"""
 
@@ -224,6 +232,9 @@ __all__ = [
     "bars_cols",
     "bars_with_limit_dtype",
     "bars_with_limit_cols",
+    "limit_price_only_dtype",
+    "LimitPriceOnlyBarsArray",
+    "BarsWithLimitArray",
     "BarsArray",
     "BarsWithLimitArray",
     "BarsPanel",
