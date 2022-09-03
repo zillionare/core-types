@@ -59,7 +59,7 @@ plugins:
       lang: en
   - mkdocstrings:
       watch:
-        - ppw0817
+        - coretypes
 extra:
   version:
     provider: mike
