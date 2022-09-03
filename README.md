@@ -15,7 +15,7 @@
 定义了zillionare平台中多数项目/模块需要使用的核心数据类型，比如FrameType, SecuirityType, bars_dtype， BarsArray等。
 
 * Free software: MIT
-* Documentation: <https://zillionare-core-types.readthedocs.io>
+* Documentation: <https://zillionare.github.io/core-types>
 
 
 ## Features

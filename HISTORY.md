@@ -1,5 +1,7 @@
 # History
 
+## 0.5.2
+* 增加了LimitPriceOnlyBarsArray和limit_price_only_dtype两种类型
 ## 0.5.1 (2022-08-08)
 * 修复了找到到mike[doc]安装包的错误。
 
