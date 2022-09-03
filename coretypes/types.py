@@ -150,7 +150,7 @@ bars_dtype = np.dtype(
         ("factor", "f4"),
     ]
 )
-"""行情数据元类型"""
+"""行情数据元类型，包括字段（frame, open, high, low, close, volume, amount, factor)"""
 
 bars_dtype_with_code = np.dtype(
     [
@@ -166,7 +166,7 @@ bars_dtype_with_code = np.dtype(
         ("factor", "f4"),
     ]
 )
-"""带证券代码的行情数据元类型"""
+"""带证券代码的行情数据元类型，在bars_dtype基础上增加了code字段"""
 
 bars_cols = list(bars_dtype.names)
 """行情数据列名数组，即[frame, open, high, low, close, volume, amount, factor]"""
@@ -207,6 +207,7 @@ security_info_dtype = [
     ("end", "datetime64[s]"),
     ("type", "O"),
 ]
+"""证券信息类型，包括code, alias, name, ipo, end, type字段"""
 
 xrxd_info_dtype = [
     ("code", "O"),
