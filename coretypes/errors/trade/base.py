@@ -1,0 +1,70 @@
+from enum import IntEnum
+from typing import Optional
+
+
+class ErrorCodes(IntEnum):
+    Unknown = 1000
+
+    ClientGeneric = 2000
+    ClientBadParams = 2001
+    ClientAccountConflict = 2002
+    ClientAccountStopped = 2003
+    ClientTimeRewind = 2004
+
+    ServerGeneric = 3000
+    ServerNoDataForMatch = 3001
+    ServerNoData = 3002
+
+    TradeGeneric = 4000
+    TradeNoCash = 4001
+    TradeVolNotEnough = 4002
+    TradeReachBuyLimit = 4003
+    TradeReachSellLimit = 4004
+    TradeNoPosition = 4005
+    TradePirceNotMeet = 4006
+
+
+class TradeError(BaseException):
+    """交易错误基类
+
+    在交易和回测过程产生的各种异常，包括客户端参数错误、账户错误、交易限制等。由于需要本异常信息可能需要从服务器传递到客户端并重建，所以需要有串行化能力（使用json)，以及需要传递callstack trace.
+    """
+
+    error_code = ErrorCodes.Unknown
+
+    def __init__(self, msg: str, stack: Optional[str] = None):
+        self.error_msg = msg
+        self.stack = stack
+
+    @classmethod
+    def parse_msg(cls, msg: str) -> dict:
+        raise NotImplementedError
+
+    @classmethod
+    def from_json(cls, e: dict):
+        """从json字符串中重建错误对象"""
+        error_code = e["error_code"]
+        error_msg = e["msg"]
+        stack = e.get("stack")
+
+        for klass in cls.__subclasses__():
+            if klass.error_code.value == error_code:
+                try:
+                    return klass(stack=stack, **klass.parse_msg(error_msg))
+                except Exception:
+                    return TradeError(
+                        f"无法解析错误类型。原错误代码为{error_code}, 错误消息为{error_msg}", stack
+                    )
+        else:
+            return TradeError(f"无法解析错误类型。原{error_code},错误消息为{error_msg}", stack)
+
+    def as_json(self):
+        """将对象串行化为json字符串，以遍可以通过网络传输"""
+        return {
+            "error_code": self.error_code.value,
+            "msg": self.error_msg,
+            "stack": self.stack,
+        }
+
+    def __str__(self):
+        return f"{self.error_code}: {self.error_msg}"

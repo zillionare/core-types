@@ -1,5 +1,6 @@
 # History
 
+## 0.6 增加 coretypes.erros.trade 包，以提供从TradeServer/Backtesting Server 到 TradeClient的错误传递。
 ## 0.5.2
 * 增加了LimitPriceOnlyBarsArray和limit_price_only_dtype两种类型
 ## 0.5.1 (2022-08-08)

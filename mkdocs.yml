@@ -6,8 +6,7 @@ repo_name: core-types
 nav:
   - home: index.md
   - installation: installation.md
-  - usage: usage.md
-  - modules: api.md
+  - api: api.md
   - contributing: contributing.md
   - authors: authors.md
   - history: history.md

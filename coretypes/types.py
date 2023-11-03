@@ -155,7 +155,6 @@ bars_dtype = np.dtype(
 bars_dtype_with_code = np.dtype(
     [
         ("code", "O"),
-        # use datetime64 may improve performance/memory usage, but it's hard to talk with other modules, like TimeFrame
         ("frame", "datetime64[s]"),
         ("open", "f4"),
         ("high", "f4"),
