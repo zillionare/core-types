@@ -5,7 +5,7 @@ from coretypes.errors.trade.base import ErrorCodes, TradeError
 from coretypes.types import Frame
 
 
-class ClientBadParamsError(TradeError):
+class BadParamsError(TradeError):
     """客户端参数错误异常"""
 
     error_code = ErrorCodes.ClientBadParams
@@ -18,7 +18,7 @@ class ClientBadParamsError(TradeError):
         return {"msg": msg}
 
 
-class ClientAccountConflictError(TradeError):
+class AccountConflictError(TradeError):
     """账户冲突异常"""
 
     error_code = ErrorCodes.ClientAccountConflict
@@ -34,23 +34,21 @@ class ClientAccountConflictError(TradeError):
         }
 
 
-class ClientAccountStoppedError(TradeError):
+class AccountStoppedError(TradeError):
     """账户已停止异常"""
 
     error_code = ErrorCodes.ClientAccountStopped
 
-    def __init__(self, account: str, stack: Optional[str] = None):
-        super().__init__(f"{account}已停用（回测结束）", stack)
+    def __init__(self, bid_time: Frame, stop_time: Frame, stack: Optional[str] = None):
+        super().__init__(f"下单时间为{bid_time},而账户已于{stop_time}冻结。", stack)
 
     @classmethod
     def parse_msg(cls, msg: str) -> dict:
-        m = re.match(r"(.*?)已停用（回测结束）", msg)
-        return {
-            "account": m.group(1),
-        }
+        m = re.match(r"下单时间为(.*?),而账户已于(.*?)冻结。", msg)
+        return {"bid_time": m.group(1), "stop_time": m.group(2)}
 
 
-class ClientTimeRewindError(TradeError):
+class TimeRewindError(TradeError):
     """客户端时间回退异常"""
 
     error_code = ErrorCodes.ClientTimeRewind

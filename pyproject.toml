@@ -1,7 +1,7 @@
 [tool]
 [tool.poetry]
 name = "zillionare_core_types"
-version = "0.6"
+version = "0.6.1"
 homepage = "https://github.com/zillionare/zillionare_core_types"
 description = "core types definition shared by zillionare."
 authors = ["Aaron Yang <code@jieyu.ai>"]

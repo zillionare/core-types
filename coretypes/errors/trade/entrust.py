@@ -22,7 +22,7 @@ class GenericError(TradeError):
         }
 
 
-class NocashError(TradeError):
+class CashError(TradeError):
     """账户余额不足"""
 
     error_code = ErrorCodes.TradeNoCash
@@ -83,7 +83,7 @@ class SellLimitError(TradeError):
         }
 
 
-class NopositionError(TradeError):
+class PositionError(TradeError):
     """`security`在期间没有持仓时发出卖出指令"""
 
     error_code = ErrorCodes.TradeNoPosition

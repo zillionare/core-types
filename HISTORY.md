@@ -1,5 +1,8 @@
 # History
 
+## 0.6.1
+1. 修改NopositionError名为PositionError, NocashError为CashError, ClientAccountConflictError为AccountConflictError, AccountStoppedError, ClientTimeRewindError为TimeRewindError
+2. AccountStoppedError参数变更为`bid_time`和`stop_time`
 ## 0.6 增加 coretypes.erros.trade 包，以提供从TradeServer/Backtesting Server 到 TradeClient的错误传递。
 ## 0.5.2
 * 增加了LimitPriceOnlyBarsArray和limit_price_only_dtype两种类型

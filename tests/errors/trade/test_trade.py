@@ -1,5 +1,6 @@
 import datetime
 import unittest
+from tracemalloc import stop
 
 from coretypes.errors.trade import *
 
@@ -22,7 +23,7 @@ class TradeErrorTest(unittest.TestCase):
         }
 
         e = TradeError.from_json(d)
-        self.assertTrue(isinstance(e, NocashError))
+        self.assertTrue(isinstance(e, CashError))
 
         d = {
             "error_code": 4002,
@@ -58,7 +59,7 @@ class TradeErrorTest(unittest.TestCase):
         }
 
         e = TradeError.from_json(d)
-        self.assertTrue(isinstance(e, NopositionError))
+        self.assertTrue(isinstance(e, PositionError))
 
         d = {
             "error_code": 4006,
@@ -86,7 +87,7 @@ class TradeErrorTest(unittest.TestCase):
         self.assertTrue(isinstance(e, TradeError))
 
     def test_as_json(self):
-        e = NocashError("fdgd", 1_000_000, 3_000)
+        e = CashError("fdgd", 1_000_000, 3_000)
 
         self.assertEqual(str(e), "4001: 账户fdgd资金不足, 需要1000000, 当前3000")
         d = e.as_json()
@@ -100,26 +101,28 @@ class TradeErrorTest(unittest.TestCase):
         )
 
     def test_client_error(self):
-        e = ClientBadParamsError("传入参数错误(name), 要求test,实际为None")
+        e = BadParamsError("传入参数错误(name), 要求test,实际为None")
         d = e.as_json()
 
         e = TradeError.from_json(d)
-        self.assertTrue(isinstance(e, ClientBadParamsError))
+        self.assertTrue(isinstance(e, BadParamsError))
 
-        e = ClientAccountConflictError("fdkgd")
+        e = AccountConflictError("fdkgd")
         d = e.as_json()
         e = TradeError.from_json(d)
-        self.assertTrue(isinstance(e, ClientAccountConflictError))
+        self.assertTrue(isinstance(e, AccountConflictError))
 
-        e = ClientAccountStoppedError("fdkgd")
+        bid_time = datetime.date(2022, 3, 1)
+        stop_time = datetime.date(2022, 2, 28)
+        e = AccountStoppedError(bid_time, stop_time)
         d = e.as_json()
         e = TradeError.from_json(d)
-        self.assertTrue(isinstance(e, ClientAccountStoppedError))
+        self.assertTrue(isinstance(e, AccountStoppedError))
 
-        e = ClientTimeRewindError(datetime.date(2022, 3, 1), datetime.date(2022, 3, 2))
+        e = TimeRewindError(datetime.date(2022, 3, 1), datetime.date(2022, 3, 2))
         d = e.as_json()
         e = TradeError.from_json(d)
-        self.assertTrue(isinstance(e, ClientTimeRewindError))
+        self.assertTrue(isinstance(e, TimeRewindError))
 
     def test_server_error(self):
         e = ServerNoDataForMatch("000001", datetime.date(2022, 1, 1))
