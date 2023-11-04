@@ -1,5 +1,6 @@
 # History
 
+## 0.6.2 TradeError增加调用栈信息，通过`with_stack`控制。
 ## 0.6.1
 1. 修改NopositionError名为PositionError, NocashError为CashError, ClientAccountConflictError为AccountConflictError, AccountStoppedError, ClientTimeRewindError为TimeRewindError
 2. AccountStoppedError参数变更为`bid_time`和`stop_time`

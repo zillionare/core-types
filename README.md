@@ -155,7 +155,15 @@ bars_dtype_with_code = np.dtype(
 !!! Tips
     对开发者而言，如果需要将此类异常传入到客户端，需要通过 [TraderError.as_json](api/#coretypes.errors.trade.base.TradeError.as_json)将其串行化后再通过网络发送，在客户端则可以通过[TraderError.from_json](api/#coretypes.errors.trade.base.TradeError.from_json)将其恢复。
 
-    为方便查错，服务器还可以将调用栈通过`stack`参数传递给客户端。
+    为方便查错，服务器在生成TradeError时，可以传入`with_stack=True`，这样生成的TraderError(及子类)中，将包含调用栈信息（在`stack`属性中），以方便查错。
+
+```python
+def foo():
+    try:
+        raise TraderError("mock error", with_stack=True)
+    except TradeError as e:
+        print(e.stack)
+```
 
 ### 2.3. QuotesFetcher
 

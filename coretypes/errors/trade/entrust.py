@@ -6,19 +6,19 @@ from coretypes.types import Frame
 
 
 class GenericError(TradeError):
-    """原理不明的委托错误"""
+    """原因不明的委托错误"""
 
     error_code = ErrorCodes.TradeGeneric
 
-    def __init__(self, security: str, time: Frame, stack: Optional[str] = None):
-        super().__init__(f"委托{security}在{time}发生未知错误", stack)
+    def __init__(self, security: str, time: Frame, with_stack: bool=False):
+        super().__init__(f"委托{security}在{time}发生未知错误", with_stack=with_stack)
 
     @classmethod
     def parse_msg(cls, msg: str) -> dict:
         m = re.match(r"委托(.*?)在(.*?)发生未知错误", msg)
         return {
-            "security": m.group(1),
-            "time": m.group(2),
+            "security": m.group(1),  # type: ignore
+            "time": m.group(2),  # type: ignore
         }
 
 
@@ -32,20 +32,19 @@ class CashError(TradeError):
         account: str,
         required: float,
         available: float,
-        stack: Optional[str] = None,
+        with_stack: bool = False,
     ):
         super().__init__(
-            f"账户{account}资金不足, 需要{required}, 当前{available}",
-            stack,
+            f"账户{account}资金不足, 需要{required}, 当前{available}", with_stack=with_stack
         )
 
     @classmethod
     def parse_msg(cls, msg: str) -> dict:
         m = re.match(r"账户(.*?)资金不足, 需要(\d+(\.\d+)?), 当前(\d+(\.\d+)?)", msg)
         return {
-            "account": m.group(1),
-            "required": float(m.group(2)),
-            "available": float(m.group(3)),
+            "account": m.group(1),  # type: ignore
+            "required": float(m.group(2)),  # type: ignore
+            "available": float(m.group(3)),  # type: ignore
         }
 
 
@@ -54,15 +53,15 @@ class BuylimitError(TradeError):
 
     error_code = ErrorCodes.TradeReachBuyLimit
 
-    def __init__(self, security: str, time: Frame, stack: Optional[str] = None):
-        super().__init__(f"不能在涨停板上买入{security}, {time}", stack)
+    def __init__(self, security: str, time: Frame, with_stack: bool = False):
+        super().__init__(f"不能在涨停板上买入{security}, {time}", with_stack=with_stack)
 
     @classmethod
     def parse_msg(cls, msg: str) -> dict:
         m = re.match(r"不能在涨停板上买入(.*?), (.*?)", msg)
         return {
-            "security": m.group(1),
-            "time": m.group(2),
+            "security": m.group(1),  # type: ignore
+            "time": m.group(2),  # type: ignore
         }
 
 
@@ -71,15 +70,15 @@ class SellLimitError(TradeError):
 
     error_code = ErrorCodes.TradeReachSellLimit
 
-    def __init__(self, security: str, time: Frame, stack: Optional[str] = None):
-        super().__init__(f"不能在跌停板上卖出{security}, {time}", stack)
+    def __init__(self, security: str, time: Frame, with_stack: bool = False):
+        super().__init__(f"不能在跌停板上卖出{security}, {time}", with_stack=with_stack)
 
     @classmethod
     def parse_msg(cls, msg: str) -> dict:
         m = re.match(r"不能在跌停板上卖出(.*?), (.*?)", msg)
         return {
-            "security": m.group(1),
-            "time": m.group(2),
+            "security": m.group(1),  # type: ignore
+            "time": m.group(2),  # type: ignore
         }
 
 
@@ -88,15 +87,15 @@ class PositionError(TradeError):
 
     error_code = ErrorCodes.TradeNoPosition
 
-    def __init__(self, security: str, time: Frame, stack: Optional[str] = None):
-        super().__init__(f"{security}在{time}期间没有持仓", stack)
+    def __init__(self, security: str, time: Frame, with_stack: bool = False):
+        super().__init__(f"{security}在{time}期间没有持仓", with_stack=with_stack)
 
     @classmethod
     def parse_msg(cls, msg: str) -> dict:
         m = re.match(r"(.*?)在(.*?)期间没有持仓", msg)
         return {
-            "security": m.group(1),
-            "time": m.group(2),
+            "security": m.group(1),  # type: ignore
+            "time": m.group(2),  # type: ignore
         }
 
 
@@ -105,16 +104,21 @@ class PriceNotMeet(TradeError):
 
     error_code = ErrorCodes.TradePirceNotMeet
 
-    def __init__(self, security: str, entrust: float, stack: Optional[str] = None):
+    def __init__(
+        self, security: str, price: float, order_time: Frame, with_stack: bool = False
+    ):
 
-        super().__init__(f"{security}现价未达到委托价:{entrust}", stack)
+        super().__init__(
+            f"{security}在{order_time}之后未达到委托价:{price}", with_stack=with_stack
+        )
 
     @classmethod
     def parse_msg(cls, msg: str) -> dict:
-        m = re.match(r"(.*?)现价未达到委托价:(\d+(\.\d+)?)", msg)
+        m = re.match(r"(.*?)在(.*?)之后未达到委托价:(\d+(\.\d+)?)", msg)
         return {
-            "security": m.group(1),
-            "entrust": float(m.group(2)),
+            "security": m.group(1),  # type: ignore
+            "order_time": m.group(2),  # type: ignore
+            "price": float(m.group(3)),  # type: ignore
         }
 
 
@@ -123,13 +127,13 @@ class VolumeNotMeet(TradeError):
 
     error_code = ErrorCodes.TradeVolNotEnough
 
-    def __init__(self, security: str, price: float, stack: Optional[str] = None):
-        super().__init__(f"{security}委托价{price}达到，但成交量为零", stack)
+    def __init__(self, security: str, price: float, with_stack: bool = False):
+        super().__init__(f"{security}委托价{price}达到，但成交量为零", with_stack=with_stack)
 
     @classmethod
     def parse_msg(cls, msg: str) -> dict:
         m = re.match(r"(.*?)委托价(\d+(\.\d+)?)达到，但成交量为零", msg)
         return {
-            "security": m.group(1),
-            "price": float(m.group(2)),
+            "security": m.group(1),  # type: ignore
+            "price": float(m.group(2)),  # type: ignore
         }
