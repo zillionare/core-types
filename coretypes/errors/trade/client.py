@@ -10,8 +10,8 @@ class BadParamsError(TradeError):
 
     error_code = ErrorCodes.ClientBadParams
 
-    def __init__(self, msg: str):
-        super().__init__(msg)
+    def __init__(self, msg: str, with_stack:bool = False):
+        super().__init__(msg, with_stack)
 
     @classmethod
     def parse_msg(cls, msg: str) -> dict:
