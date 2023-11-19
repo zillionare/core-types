@@ -1,5 +1,6 @@
 # History
 
+## 0.6.3 [[#1](https://github.com/zillionare/core-types/issues/1)] 恢复异常时，可能丢弃掉stack信息。
 ## 0.6.2 TradeError增加调用栈信息，通过`with_stack`控制。
 ## 0.6.1
 1. 修改NopositionError名为PositionError, NocashError为CashError, ClientAccountConflictError为AccountConflictError, AccountStoppedError, ClientTimeRewindError为TimeRewindError

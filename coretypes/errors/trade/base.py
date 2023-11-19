@@ -65,9 +65,13 @@ class TradeError(Exception):
 
                     return obj
                 except Exception:
-                    return TradeError(f"无法找到错误类型。原错误代码为{error_code}, 错误消息为{error_msg}")
+                    te = TradeError(f"异常对象构建时出错。原错误代码：{error_code}, 原错误消息：{error_msg}")
+                    te.stack = stack
+                    return te
         else:
-            return TradeError(f"无法解析错误类型。原{error_code},错误消息为{error_msg}")
+            te = TradeError(f"未知错误类型。错误代码: {error_code}, 错误消息为{error_msg}")
+            te.stack = stack
+            return te
 
     def as_json(self):
         """将对象串行化为json字符串，以遍可以通过网络传输"""

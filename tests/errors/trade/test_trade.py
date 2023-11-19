@@ -1,6 +1,5 @@
 import datetime
 import unittest
-from tracemalloc import stop
 
 from coretypes.errors.trade import *
 
@@ -47,12 +46,13 @@ class TradeErrorTest(unittest.TestCase):
         self.assertTrue(isinstance(e, PriceNotMeet))
 
         d = {
-            "error_code": 4000000,
+            "error_code": 9999999,
             "msg": "委托000002.XSHG在2018-03-29 14:32:00发生未知错误",
             "stack": "no more stack",
         }
         e = TradeError.from_json(d)
         self.assertTrue(isinstance(e, TradeError))
+        self.assertEqual(e.stack, "no more stack")
 
         d = {
             "error_code": 4001,
@@ -61,6 +61,16 @@ class TradeErrorTest(unittest.TestCase):
         }
         e = TradeError.from_json(d)
         self.assertTrue(isinstance(e, TradeError))
+
+        # 异常对象构建时出错
+        d = {
+            "error_code": 4001,
+            "msg": "委托在发生未知错误",
+            "stack": "no more stack",
+        }
+        e = TradeError.from_json(d)
+        self.assertTrue(isinstance(e, TradeError))
+        self.assertEqual(e.error_msg, "异常对象构建时出错。原错误代码：4001, 原错误消息：委托在发生未知错误")
 
     def test_as_json(self):
         e = CashError("fdgd", 1_000_000, 3_000, with_stack=True)
